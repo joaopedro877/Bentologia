@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Dec  7 12:03:10 2023
+
+@author: joao
+"""
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+#abrindo e editando
+df=pd.read_csv("/home/joao/bentologia/annotations.csv")
+df=df.loc[:,~df.columns.str.startswith('Aux')]
+
+#calculando cobertura por foto
+
+'''calculando a cobertura por transecto e ponto'''
+coberturaTP= df.groupby(["Transecto", "Ponto"])["Label"].value_counts()
+coberturaTP=coberturaTP.unstack(level='Label')
+'''invertendo e reorganizando as dimensoes do dataframe'''
+coberturaTP=coberturaTP.T
+
+'''calculando a cobertura por ponto'''
+coberturaP= df.groupby([ "Ponto"])["Label"].value_counts()
+coberturaP=coberturaP.unstack(level='Label')
+'''invertendo e reorganizando as dimensoes do dataframe'''
+coberturaP=coberturaP.T
+'''calculando a cobertura e adicionando a terceira linha'''
+sarc_cob_ponto=coberturaP.iloc[1]*100/(coberturaP.iloc[0]+coberturaP.iloc[1])
+coberturaP=coberturaP.append(sarc_cob_ponto,ignore_index=True)
