@@ -37,6 +37,8 @@ c_med=cobertura['cobertura de Sarcothelia %'].mean()
 c_desv=cobertura['cobertura de Sarcothelia %'].std()
 
 '''media e desvio de cada ponto'''
+cob_med=cobertura.groupby("Ponto",as_index=False)['cobertura de Sarcothelia %'].mean()
+cob_desv=cobertura.groupby("Ponto",as_index=False)['cobertura de Sarcothelia %'].std()
 #
 
 '''Boxplot'''
